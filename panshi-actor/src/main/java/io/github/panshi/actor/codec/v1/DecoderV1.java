@@ -18,18 +18,21 @@ public class DecoderV1 implements Decoder {
     }
     if (dataBytes.length < 4) {
       String errorDetail = String.format("Invalid protocol value, size=%s", dataBytes.length);
+      log.error(errorDetail);
       throw new IllegalArgumentException(errorDetail);
     }
     ByteBuffer buf = ByteBuffer.wrap(dataBytes);
     byte version = buf.get();
     if (version != ProtocolV1.PROTOCOL_VERSION.getCode()) {
       String errorDetail = String.format("Invalid protocol version, version=%s", version);
+      log.error(errorDetail);
       throw new IllegalStateException(errorDetail);
     }
     int headerSize = buf.getInt();
     if (headerSize != ProtocolV1.HEADER_SIZE) {
       String errorDetail =
           String.format("Invalid header size, version=%s, size=%s", version, headerSize);
+      log.error(errorDetail);
       throw new IllegalStateException(errorDetail);
     }
     int requestId = buf.getInt();
